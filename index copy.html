@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~ Kylie Robison's Home Page ~</title>
+<meta name="description" content="Kylie Robison — writer covering AI, robotics, and big tech at Core Memory.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* windows 98 desktop: solid teal, taskbar down below */
+  body {
+    margin: 0;
+    padding: 24px 12px 74px;
+    background-color: #008080;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+  }
+  /* the window (classic gray chrome) */
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: 1px 1px 0 #000;
+    padding: 3px;
+  }
+  /* title bar: the blue gradient of home */
+  .titlebar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 3px 4px 3px 6px;
+    user-select: none;
+  }
+  .titleicon { font-size: 13px; margin-right: 6px; }
+  .titlebar .titletext {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .closebox {
+    margin-left: auto;
+    width: 18px; height: 16px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 13px;
+    text-align: center;
+    cursor: pointer;
+    font-family: Tahoma, Verdana, sans-serif;
+  }
+  .closebox:active { border-color: #404040 #fff #fff #404040; }
+  /* menu + address rows */
+  .menurow {
+    font-size: 12px;
+    padding: 3px 6px;
+    display: flex;
+    gap: 14px;
+    user-select: none;
+    border-bottom: 1px solid #808080;
+    box-shadow: 0 1px 0 #fff;
+  }
+  .menurow span { cursor: default; }
+  .menurow span:first-letter { text-decoration: underline; }
+  .menurow span:hover { background: #000080; color: #fff; }
+  .addressrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+  .addressrow .field {
+    flex: 1;
+    background: #fff;
+    border: 2px solid;
+    border-color: #404040 #fff #fff #404040;
+    padding: 2px 6px;
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .addressrow .gobtn {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    font-size: 11px;
+    padding: 1px 10px;
+    cursor: pointer;
+  }
+  .addressrow .gobtn:active { border-color: #404040 #fff #fff #404040; }
+  /* white document area */
+  .winbody {
+    background: #fff;
+    border: 2px solid;
+    border-color: #404040 #fff #fff #404040;
+    padding: 22px 26px 20px;
+  }
+  /* media player window */
+  .player {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    padding: 2px;
+    margin: 8px 0;
+  }
+  .playerbar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+    user-select: none;
+  }
+  .playerframe {
+    border: 2px solid;
+    border-color: #404040 #fff #fff #404040;
+    background: #000;
+    aspect-ratio: 16 / 9;
+  }
+  .playerframe iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* taskbar */
+  #taskbar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 34px;
+    background: #c0c0c0;
+    border-top: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 6px;
+    z-index: 997;
+    user-select: none;
+  }
+  #startBtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 2px 10px 2px 6px;
+    cursor: pointer;
+  }
+  #startBtn:active { border-color: #404040 #fff #fff #404040; }
+  #tray {
+    margin-left: auto;
+    border: 2px solid;
+    border-color: #404040 #fff #fff #404040;
+    font-size: 11px;
+    padding: 3px 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  /* closed-window desktop icon */
+  #deskicon {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  #deskicon .icon { font-size: 46px; }
+  #deskicon .label {
+    font-size: 12px;
+    background: #000;
+    color: #fff;
+    padding: 1px 7px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+    color: #1a1a6e;
+    font-family: "Silkscreen", Tahoma, Verdana, sans-serif;
+    letter-spacing: 0.5px;
+  }
+  h1 .spark { color: #cc00aa; animation: twinkle 1.4s infinite, rainbowcycle 4s linear infinite; display: inline-block; cursor: pointer; user-select: none; }
+  @keyframes twinkle { 0%,100% {opacity: 1;} 50% {opacity: 0.25;} }
+  .subtitle {
+    text-align: center;
+    font-size: 12px;
+    color: #555;
+    margin: 6px 0 0;
+  }
+  @keyframes rainbowcycle {
+    0%, 100% { color: #e40303; }
+    17% { color: #ff8c00; }
+    33% { color: #d4a900; }
+    50% { color: #008026; }
+    67% { color: #004dff; }
+    83% { color: #750787; }
+  }
+  .rainbow {
+    border: none;
+    height: 4px;
+    margin: 22px 0;
+    background: linear-gradient(90deg, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787);
+  }
+  h2 {
+    font-size: 14px;
+    color: #1a1a6e;
+    margin: 26px 0 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  h2::before { content: "▼ "; color: #000; }
+  h2.closed::before { content: "► "; }
+  h2:hover { text-decoration: underline; }
+  p, li { font-size: 13px; line-height: 1.7; }
+  p { margin: 8px 0; }
+  ul { padding-left: 20px; margin: 6px 0; }
+  li { margin: 4px 0; }
+  a { color: #0000cc; }
+  a:visited { color: #551a8b; }
+  a:hover { background: #ffff99; }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px 0 6px;
+  }
+  .badge {
+    width: 88px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.5px;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    background: #c0c0c0;
+    color: #000;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+  .badge:hover { background: #d4d4d4; }
+  .badge:active { border-color: #404040 #fff #fff #404040; }
+  body.party .badge { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    margin-top: 22px;
+    border-top: 1px dashed #bbb;
+    padding-top: 12px;
+  }
+  .counter {
+    font-family: "Courier New", monospace;
+    background: #000;
+    color: #3f3;
+    padding: 1px 6px;
+    letter-spacing: 2px;
+  }
+  #donot {
+    color: #999;
+    font-size: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+    user-select: none;
+  }
+  /* the basement */
+  #basement {
+    display: none;
+    background: #000;
+    color: #3f3;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    padding: 18px 20px;
+    margin-top: 18px;
+    border: 2px solid #3f3;
+  }
+  #basement h3 { margin: 0 0 10px; font-size: 13px; letter-spacing: 3px; }
+  #basement pre {
+    margin: 10px 0;
+    line-height: 1.25;
+    font-size: 12px;
+  }
+  #basement ul { list-style: square; }
+  #basement li { color: #3f3; font-size: 12px; }
+  #basement button {
+    background: #000;
+    color: #3f3;
+    border: 1px solid #3f3;
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  #basement button:hover { background: #3f3; color: #000; }
+  /* party mode */
+  body.party { animation: hue 2s linear infinite; }
+  @keyframes hue { to { filter: hue-rotate(360deg); } }
+  /* cursor sparkle */
+  .trail {
+    position: fixed;
+    pointer-events: none;
+    font-size: 12px;
+    color: #cc00aa;
+    animation: fadeup 0.9s ease-out forwards;
+    z-index: 999;
+  }
+  @keyframes fadeup {
+    to { opacity: 0; transform: translateY(-14px) scale(0.5); }
+  }
+  #toast {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a6e;
+    color: #fff;
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 1px solid #fff;
+    display: none;
+    z-index: 1000;
+  }
+  /* ---------- BOLT, the resident robot ---------- */
+  #bolt {
+    position: fixed;
+    right: 16px;
+    bottom: 46px; /* stays above the taskbar */
+    width: 92px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 998;
+    animation: hover-bob 3.2s ease-in-out infinite;
+  }
+  @keyframes hover-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  body.party #bolt { animation: robot-dance 0.5s ease-in-out infinite; }
+  @keyframes robot-dance {
+    0%, 100% { transform: rotate(-8deg) translateY(0); }
+    50% { transform: rotate(8deg) translateY(-10px); }
+  }
+  #bolt .antenna-light { animation: ant-blink 2s infinite; }
+  @keyframes ant-blink { 0%,100% { fill: #cc00aa; } 50% { fill: #ffed00; } }
+  #boltSpeech {
+    position: fixed;
+    right: 20px;
+    bottom: 152px;
+    max-width: 190px;
+    background: #fffef5;
+    border: 2px solid #1a1a6e;
+    border-radius: 8px;
+    padding: 7px 11px;
+    font-size: 11px;
+    color: #1a1a6e;
+    display: none;
+    z-index: 998;
+  }
+  #boltSpeech::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    right: 28px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 8px solid #1a1a6e;
+  }
+  @media (max-width: 720px) {
+    #bolt { width: 64px; right: 8px; bottom: 42px; }
+    #boltSpeech { bottom: 116px; right: 12px; }
+  }
+  /* desktop icons (the real navigation) */
+  .deskicons {
+    position: fixed;
+    top: 34px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 996;
+  }
+  .dicon {
+    display: block;
+    width: 84px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .dicon .ic {
+    font-size: 34px;
+    display: block;
+    margin-bottom: 3px;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
+  }
+  .dicon .lbl {
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 11px;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    padding: 1px 4px;
+  }
+  .dicon:hover .lbl { background: #000080; }
+  a.dicon:hover, a.dicon:visited { background: transparent; color: inherit; }
+  @media (max-width: 980px) {
+    .deskicons {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin: 0 auto 14px;
+      max-width: 680px;
+    }
+    .dicon { width: 76px; }
+  }
+</style>
+</head>
+<body>
+<div class="deskicons">
+  <a class="dicon" href="https://www.corememory.com"><span class="ic">💾</span><span class="lbl">Core Memory</span></a>
+  <a class="dicon" href="https://www.youtube.com/channel/UC2ohDbbkpfngjaeV7TBHRcg"><span class="ic">📺</span><span class="lbl">Like &amp; Subscribe</span></a>
+  <a class="dicon" href="https://signal.me/#eu/WMYGeut9lNj6JiTuP0OEp_QAOwNvRqoxs_iiWJAZSQ6qBi36kddPto6HR_J3aQPD"><span class="ic">🔒</span><span class="lbl">Tips (Signal)</span></a>
+  <a class="dicon" href="https://x.com/kyliebytes"><span class="ic">🐦</span><span class="lbl">Twitter</span></a>
+  <a class="dicon" href="https://bsky.app/profile/kylierobison.com"><span class="ic">🦋</span><span class="lbl">Bluesky</span></a>
+  <a class="dicon" href="https://www.threads.com/@kylie.robison"><span class="ic">🧵</span><span class="lbl">Threads</span></a>
+  <a class="dicon" href="https://www.instagram.com/kylie.robison/"><span class="ic">📷</span><span class="lbl">Instagram</span></a>
+</div>
+
+<div id="deskicon" title="double-click energy, single-click required">
+  <div class="icon">🌐</div>
+  <span class="label">kylierobison.com</span>
+</div>
+
+<div id="taskbar">
+  <button id="startBtn"><span>🪟</span> Start</button>
+  <span id="tray"><span id="clock">--:--</span></span>
+</div>
+
+<div class="page">
+  <div class="titlebar">
+    <span class="titleicon">🌐</span>
+    <span class="titletext">kylierobison.com</span>
+    <span class="closebox" id="closeBox" title="close window">✕</span>
+  </div>
+  <div class="menurow">
+    <span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span>
+  </div>
+  <div class="addressrow">
+    <span>Address</span>
+    <span class="field">http://www.kylierobison.com/</span>
+    <button class="gobtn" id="goBtn">Go</button>
+  </div>
+  <div class="winbody">
+
+  <h1><span class="spark" id="sparkL">✦</span> Kylie Robison <span class="spark" id="sparkR">✦</span></h1>
+  <p class="subtitle">Core Memory &middot; San Francisco, CA</p>
+
+  <hr class="rainbow">
+
+  <h2>About Me</h2>
+  <div class="sec">
+    <p>I'm a writer and host at <a href="https://www.corememory.com">Core Memory</a>, where I report on the people and machines shaping the future of technology. My work spans long-form features and on-camera interviews — from America's actuator crisis to the hunt for a domestic drone industry. Before Core Memory I was a senior correspondent at WIRED, with earlier reporting at The Verge, Fortune, and Business Insider. I'm based in San Francisco.</p>
+  </div>
+
+  <h2>My Work</h2>
+  <div class="sec">
+    <ul>
+      <li><a href="https://www.corememory.com">Core Memory</a> — current reporting on AI, robots, and manufacturing</li>
+      <li><a href="https://www.corememory.com/podcast">The Core Memory Podcast</a> — co-hosted with Ashlee Vance</li>
+      <li>Previously: <a href="https://www.wired.com/author/kylie-robison/">WIRED</a> &middot; <a href="https://www.theverge.com/authors/kylie-robison">The Verge</a> &middot; <a href="https://fortune.com/author/kylie-robison/">Fortune</a> &middot; <a href="https://www.businessinsider.com/author/kylie-robison">Business Insider</a></li>
+    </ul>
+  </div>
+
+  <h2>Now Playing</h2>
+  <div class="sec">
+    <div class="player">
+      <div class="playerbar">▶ kylie_latest.mpg — Media Player</div>
+      <div class="playerframe">
+        <iframe src="https://www.youtube.com/embed/videoseries?list=UUzWnSedVeqUyze_R6M5BqwA" title="Latest Core Memory video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <hr class="rainbow">
+
+  <footer>
+    <p>You are visitor <span class="counter" id="counter">········</span></p>
+    <p>Last updated: <span id="updated">recently</span></p>
+    <p>&copy; <span id="year">2026</span> Kylie Robison &middot; online since 1998</p>
+    <p><span id="donot">do not click this</span></p>
+  </footer>
+
+  <div id="basement">
+    <h3>*** THE BASEMENT ***</h3>
+    <p>you clicked it. of course you did. you're a curious person.</p>
+    <pre>
+      /\_/\
+     ( o.o )   &lt;- the basement is guarded.
+      &gt; ^ &lt;      his name is fang.
+     /|   |\     he asks that you keep your voice down.
+    </pre>
+    <p>SITE SECRETS (classified):</p>
+    <ul>
+      <li>the hit counter is real. it counted you. hello.</li>
+      <li>all the dust from upstairs gets swept down here. mind your step.</li>
+      <li>there is one more secret. old gamers know the code. ↑ ↑ ↓ ↓ ← → ← → B A</li>
+      <li>there is no basement</li>
+    </ul>
+    <button id="surface">RETURN TO SURFACE</button>
+  </div>
+
+  </div><!-- /winbody -->
+
+</div>
+
+<div id="toast"></div>
+
+<!-- BOLT, resident robot. does not sleep. technically cannot. -->
+<div id="boltSpeech"></div>
+<svg id="bolt" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" aria-label="Bolt, the site robot">
+  <!-- antenna -->
+  <line x1="50" y1="18" x2="50" y2="6" stroke="#1a1a6e" stroke-width="3"/>
+  <circle class="antenna-light" cx="50" cy="6" r="4"/>
+  <!-- head -->
+  <rect x="24" y="18" width="52" height="38" rx="8" fill="#9a9ad0" stroke="#1a1a6e" stroke-width="3"/>
+  <!-- eyes -->
+  <g id="eyeL"><circle cx="40" cy="36" r="8" fill="#fff" stroke="#1a1a6e" stroke-width="2"/><circle class="pupil" cx="40" cy="36" r="3.5" fill="#1a1a6e"/></g>
+  <g id="eyeR"><circle cx="60" cy="36" r="8" fill="#fff" stroke="#1a1a6e" stroke-width="2"/><circle class="pupil" cx="60" cy="36" r="3.5" fill="#1a1a6e"/></g>
+  <!-- eyelids for blinking -->
+  <rect id="lidL" x="32" y="28" width="16" height="0" rx="4" fill="#9a9ad0"/>
+  <rect id="lidR" x="52" y="28" width="16" height="0" rx="4" fill="#9a9ad0"/>
+  <!-- mouth -->
+  <rect id="mouth" x="42" y="47" width="16" height="3" rx="1.5" fill="#1a1a6e"/>
+  <!-- body -->
+  <rect x="32" y="60" width="36" height="30" rx="6" fill="#9a9ad0" stroke="#1a1a6e" stroke-width="3"/>
+  <circle cx="50" cy="72" r="5" fill="#ffed00" stroke="#1a1a6e" stroke-width="2"/>
+  <!-- arms -->
+  <line x1="32" y1="68" x2="18" y2="76" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
+  <line x1="68" y1="68" x2="82" y2="76" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="16" cy="77" r="4" fill="#cc00aa"/>
+  <circle cx="84" cy="77" r="4" fill="#cc00aa"/>
+  <!-- legs -->
+  <line x1="42" y1="90" x2="42" y2="102" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
+  <line x1="58" y1="90" x2="58" y2="102" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
+  <rect x="36" y="101" width="12" height="5" rx="2" fill="#1a1a6e"/>
+  <rect x="52" y="101" width="12" height="5" rx="2" fill="#1a1a6e"/>
+</svg>
+
+<script>
+  // ---------- basics ----------
+  const now = new Date();
+  document.getElementById("year").textContent = now.getFullYear();
+  document.getElementById("updated").textContent =
+    now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+
+  function toast(msg, ms) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.style.display = "none", ms || 2600);
+  }
+
+  // ---------- collapsible sections ----------
+  document.querySelectorAll(".page h2").forEach(h => {
+    h.addEventListener("click", () => {
+      h.classList.toggle("closed");
+      const sec = h.nextElementSibling;
+      if (sec && sec.classList.contains("sec")) {
+        sec.style.display = h.classList.contains("closed") ? "none" : "";
+      }
+    });
+  });
+
+  // ---------- real hit counter (free counter API, with fallback) ----------
+  const counterEl = document.getElementById("counter");
+  (async () => {
+    try {
+      const r = await fetch("https://abacus.jasoncameron.dev/hit/kylierobison-site/visits");
+      if (!r.ok) throw new Error();
+      const d = await r.json();
+      counterEl.textContent = String(d.value).padStart(8, "0");
+    } catch {
+      try {
+        const r2 = await fetch("https://api.counterapi.dev/v1/kylierobison-site/visits/up");
+        if (!r2.ok) throw new Error();
+        const d2 = await r2.json();
+        counterEl.textContent = String(d2.count).padStart(8, "0");
+      } catch {
+        counterEl.textContent = "just you";
+      }
+    }
+  })();
+
+  // ---------- menu bar clock ----------
+  function tick() {
+    const t = new Date();
+    let h = t.getHours();
+    const m = String(t.getMinutes()).padStart(2, "0");
+    const ap = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    document.getElementById("clock").textContent = h + ":" + m + " " + ap;
+  }
+  tick();
+  setInterval(tick, 5000);
+
+  // ---------- close box: the window is closable, the site is not ----------
+  const pageEl = document.querySelector(".page");
+  const deskicon = document.getElementById("deskicon");
+  document.getElementById("closeBox").addEventListener("click", () => {
+    pageEl.style.display = "none";
+    deskicon.style.display = "block";
+    boltSay("you closed the window. i still see you.", 3000);
+  });
+  deskicon.addEventListener("click", () => {
+    deskicon.style.display = "none";
+    pageEl.style.display = "block";
+  });
+
+  // ---------- start & go buttons ----------
+  document.getElementById("startBtn").addEventListener("click", () => {
+    boltSay("start what? you're looking at it.", 2800);
+  });
+  document.getElementById("goBtn").addEventListener("click", () => {
+    boltSay("you're already here.", 2400);
+  });
+
+  // ---------- do not click this ----------
+  const donot = document.getElementById("donot");
+  const basement = document.getElementById("basement");
+  let warnings = 0;
+  const warningTexts = [
+    "i said do not click this",
+    "you're really doing this?",
+    "last chance. there is nothing down there.",
+  ];
+  donot.addEventListener("click", () => {
+    if (warnings < warningTexts.length) {
+      donot.textContent = warningTexts[warnings];
+      warnings++;
+    } else {
+      donot.style.display = "none";
+      basement.style.display = "block";
+      basement.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+  document.getElementById("surface").addEventListener("click", () => {
+    basement.style.display = "none";
+    donot.style.display = "inline";
+    donot.textContent = "do not click this (again)";
+    warnings = 0;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // ---------- konami code -> party mode ----------
+  const code = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+  let pos = 0;
+  document.addEventListener("keydown", (e) => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    pos = (k === code[pos]) ? pos + 1 : (k === code[0] ? 1 : 0);
+    if (pos === code.length) { pos = 0; togglePartyMode(); }
+  });
+  function togglePartyMode() {
+    const on = document.body.classList.toggle("party");
+    toast(on ? "★ PARTY MODE ACTIVATED ★ (code again to stop)" : "party mode off. back to work.");
+  }
+  // mobile fallback: tap a title sparkle 5 times
+  let taps = 0, tapTimer;
+  [document.getElementById("sparkL"), document.getElementById("sparkR")].forEach(s => {
+    s.addEventListener("click", () => {
+      taps++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(() => taps = 0, 1500);
+      if (taps === 5) { taps = 0; togglePartyMode(); }
+    });
+  });
+
+  // ---------- BOLT, the resident robot ----------
+  const bolt = document.getElementById("bolt");
+  const speech = document.getElementById("boltSpeech");
+  const pupils = bolt.querySelectorAll(".pupil");
+  const lids = [document.getElementById("lidL"), document.getElementById("lidR")];
+
+  // eyes follow the cursor
+  if (window.matchMedia("(pointer: fine)").matches) {
+    document.addEventListener("mousemove", (e) => {
+      const r = bolt.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height * 0.33;
+      const ang = Math.atan2(e.clientY - cy, e.clientX - cx);
+      const dx = Math.cos(ang) * 2.5, dy = Math.sin(ang) * 2.5;
+      pupils[0].setAttribute("cx", 40 + dx); pupils[0].setAttribute("cy", 36 + dy);
+      pupils[1].setAttribute("cx", 60 + dx); pupils[1].setAttribute("cy", 36 + dy);
+    });
+  }
+
+  // blinking
+  function blink() {
+    lids.forEach(l => l.setAttribute("height", "16"));
+    setTimeout(() => lids.forEach(l => l.setAttribute("height", "0")), 140);
+    setTimeout(blink, 2500 + Math.random() * 4000);
+  }
+  setTimeout(blink, 2000);
+
+  // speech
+  const boltLines = [
+    "beep.",
+    "01101000 01101001 (that's \"hi\")",
+    "i passed my last software update. thanks for asking.",
+    "please do not tip me over. that was one video.",
+    "i've read everything on this page. it's good. i'm biased. it's good.",
+    "fang and i have an understanding. i don't go downstairs.",
+    "i don't sleep. i just dim.",
+    "my hobbies include standing here.",
+    "great day to be a little guy on a website.",
+    "the sparkles follow your mouse. i taught them that.",
+    "do you ever think about electricity? i AM electricity.",
+    "i have one song stuck in my head. it's the dial-up sound."
+  ];
+  let lineIdx = Math.floor(Math.random() * boltLines.length);
+  let speechTimer;
+  function boltSay(text, ms) {
+    speech.textContent = text;
+    speech.style.display = "block";
+    clearTimeout(speechTimer);
+    speechTimer = setTimeout(() => speech.style.display = "none", ms || 3200);
+  }
+  bolt.addEventListener("click", () => {
+    boltSay(boltLines[lineIdx % boltLines.length]);
+    lineIdx++;
+    // happy mouth while talking
+    const mouth = document.getElementById("mouth");
+    mouth.setAttribute("height", "6");
+    mouth.setAttribute("rx", "3");
+    setTimeout(() => { mouth.setAttribute("height", "3"); mouth.setAttribute("rx", "1.5"); }, 700);
+  });
+
+  // occasional unprompted commentary
+  setInterval(() => {
+    if (Math.random() < 0.3 && speech.style.display !== "block") {
+      boltSay(["*whirrs thoughtfully*", "just recharging.", "you're still here. nice.", "*looks around*"][Math.floor(Math.random() * 4)], 2400);
+    }
+  }, 25000);
+
+  // ---------- cursor sparkle trail (desktop only, throttled) ----------
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const trailColors = ["#e40303", "#ff8c00", "#ffed00", "#008026", "#00c3ff", "#004dff", "#750787", "#cc00aa"];
+    let trailIdx = 0;
+    let last = 0;
+    document.addEventListener("mousemove", (e) => {
+      const t = Date.now();
+      if (t - last < 90) return;
+      last = t;
+      const s = document.createElement("span");
+      s.className = "trail";
+      s.textContent = "✦";
+      s.style.color = trailColors[trailIdx++ % trailColors.length];
+      s.style.left = (e.clientX + 8) + "px";
+      s.style.top = (e.clientY + 8) + "px";
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    });
+  }
+</script>
+
+</body>
+</html>
