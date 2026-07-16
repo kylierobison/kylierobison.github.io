@@ -135,6 +135,120 @@
     height: 100%;
     display: block;
   }
+  /* svg icons scale with .ic font-size (renders identically on iOS/desktop) */
+  .ic svg { width: 1em; height: 1em; display: inline-block; vertical-align: middle; }
+  .titleicon svg { width: 15px; height: 15px; display: block; }
+  #startBtn svg { width: 15px; height: 15px; display: block; }
+  /* dropdown menus */
+  .mitem { position: relative; }
+  .mitem.open { background: #000080; color: #fff; padding: 2px 5px; margin: -2px -5px; }
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 3px);
+    left: 0;
+    min-width: 200px;
+    background: #c0c0c0;
+    color: #000;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+    padding: 2px;
+    z-index: 999;
+  }
+  .mitem.open .dropdown { display: block; }
+  .mi {
+    display: block;
+    padding: 4px 18px 4px 12px;
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: default;
+  }
+  a.mi { cursor: pointer; }
+  .mi:hover, a.mi:hover { background: #000080; color: #fff; }
+  a.mi:visited { color: #000; }
+  .msep { height: 0; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 3px 2px; }
+  /* win98 dialog boxes */
+  .dlg {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    box-shadow: 2px 2px 0 #000;
+    padding: 3px;
+    z-index: 1001;
+    width: min(320px, 92vw);
+    font-family: Tahoma, Verdana, sans-serif;
+  }
+  .dlgbar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 4px 3px 7px;
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+  .dlgbar .closebox { margin-left: auto; }
+  .dlgbody { padding: 16px 14px; font-size: 12px; text-align: center; }
+  button.win {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #404040 #404040 #fff;
+    padding: 4px 22px;
+    font-size: 12px;
+    font-family: Tahoma, Verdana, sans-serif;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  button.win:active { border-color: #404040 #fff #fff #404040; }
+  /* disk defragmenter */
+  #defragGrid {
+    display: grid;
+    grid-template-columns: repeat(24, 8px);
+    gap: 1px;
+    justify-content: center;
+    background: #000;
+    padding: 5px;
+    border: 2px solid;
+    border-color: #404040 #fff #fff #404040;
+  }
+  #defragGrid i { width: 8px; height: 8px; display: block; }
+  #defragBarWrap {
+    border: 2px solid;
+    border-color: #404040 #fff #fff #404040;
+    height: 14px;
+    background: #fff;
+    margin: 10px 0 8px;
+  }
+  #defragBar { height: 100%; width: 0%; background: #000080; }
+  #defragText { font-size: 11px; text-align: left; }
+  /* theme switcher (View menu) */
+  body.theme-stars {
+    background-color: #0b0b2a;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 90px 70px, #ffd 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 160px 20px, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 50px 120px, #aaf 50%, transparent 51%),
+      radial-gradient(1px 1px at 130px 140px, #fff 50%, transparent 51%);
+    background-size: 200px 160px;
+    background-position: 0 0;
+  }
+  body.theme-mac {
+    background-color: #808080;
+    background-image:
+      linear-gradient(45deg, #777 25%, transparent 25%, transparent 75%, #777 75%),
+      linear-gradient(45deg, #777 25%, transparent 25%, transparent 75%, #777 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 2px 2px;
+  }
   /* taskbar */
   #taskbar {
     position: fixed;
@@ -373,12 +487,12 @@
     right: 20px;
     bottom: 152px;
     max-width: 190px;
-    background: #fffef5;
-    border: 2px solid #1a1a6e;
-    border-radius: 8px;
+    background: #ffffe1; /* classic windows tooltip yellow */
+    border: 1px solid #000;
     padding: 7px 11px;
     font-size: 11px;
-    color: #1a1a6e;
+    font-family: Tahoma, Verdana, sans-serif;
+    color: #000;
     display: none;
     z-index: 998;
   }
@@ -389,7 +503,7 @@
     right: 28px;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-top: 8px solid #1a1a6e;
+    border-top: 8px solid #000;
   }
   @media (max-width: 720px) {
     #bolt { width: 64px; right: 8px; bottom: 42px; }
@@ -460,33 +574,59 @@
 </head>
 <body>
 <div class="deskicons">
-  <a class="dicon" href="https://www.corememory.com"><span class="ic">💾</span><span class="lbl">Core Memory</span></a>
-  <a class="dicon" href="https://www.youtube.com/channel/UC2ohDbbkpfngjaeV7TBHRcg"><span class="ic">📺</span><span class="lbl">Like &amp; Subscribe</span></a>
-  <a class="dicon" href="https://signal.me/#eu/WMYGeut9lNj6JiTuP0OEp_QAOwNvRqoxs_iiWJAZSQ6qBi36kddPto6HR_J3aQPD"><span class="ic">🔒</span><span class="lbl">Tips (Signal)</span></a>
-  <a class="dicon" href="https://x.com/kyliebytes"><span class="ic">🐦</span><span class="lbl">Twitter</span></a>
-  <a class="dicon" href="https://bsky.app/profile/kylierobison.com"><span class="ic">🦋</span><span class="lbl">Bluesky</span></a>
-  <a class="dicon" href="https://www.threads.com/@kylie.robison"><span class="ic">🧵</span><span class="lbl">Threads</span></a>
-  <a class="dicon" href="https://www.instagram.com/kylie.robison/"><span class="ic">📷</span><span class="lbl">Instagram</span></a>
+  <a class="dicon" href="https://www.corememory.com"><span class="ic"><svg viewBox="0 0 32 32" shape-rendering="crispEdges"><rect x="3" y="3" width="26" height="26" fill="#000080"/><rect x="10" y="3" width="13" height="10" fill="#c0c0c0"/><rect x="18" y="4" width="3" height="8" fill="#404040"/><rect x="7" y="17" width="18" height="12" fill="#fff"/><rect x="9" y="20" width="14" height="2" fill="#aab0c4"/><rect x="9" y="24" width="14" height="2" fill="#aab0c4"/></svg></span><span class="lbl">Core Memory</span></a>
+  <a class="dicon" href="https://www.youtube.com/channel/UC2ohDbbkpfngjaeV7TBHRcg"><span class="ic"><svg viewBox="0 0 32 32"><line x1="16" y1="9" x2="10" y2="2" stroke="#404040" stroke-width="2"/><line x1="16" y1="9" x2="23" y2="2" stroke="#404040" stroke-width="2"/><rect x="4" y="8" width="24" height="17" fill="#c0c0c0" stroke="#404040" stroke-width="2"/><rect x="7" y="11" width="14" height="11" fill="#008080"/><rect x="23" y="11" width="3" height="3" fill="#404040"/><rect x="23" y="16" width="3" height="3" fill="#404040"/><rect x="8" y="26" width="4" height="3" fill="#404040"/><rect x="20" y="26" width="4" height="3" fill="#404040"/></svg></span><span class="lbl">Like &amp; Subscribe</span></a>
+  <a class="dicon" href="https://signal.me/#eu/WMYGeut9lNj6JiTuP0OEp_QAOwNvRqoxs_iiWJAZSQ6qBi36kddPto6HR_J3aQPD"><span class="ic"><svg viewBox="0 0 32 32"><path d="M11 15 v-5 a5 5 0 0 1 10 0 v5" fill="none" stroke="#808080" stroke-width="3"/><rect x="7" y="14" width="18" height="14" fill="#e8b000" stroke="#8a6d00" stroke-width="1.5"/><circle cx="16" cy="20" r="2.4" fill="#5c4a00"/><rect x="14.9" y="20" width="2.2" height="5" fill="#5c4a00"/></svg></span><span class="lbl">Tips (Signal)</span></a>
+  <a class="dicon" href="https://x.com/kyliebytes"><span class="ic"><svg viewBox="0 0 32 32"><path d="M8 17 C3 18 2 22 5 25 C8 25 11 23 12 20 Z" fill="#2a7fc0"/><ellipse cx="15" cy="18" rx="9" ry="7" fill="#3aa0e8"/><circle cx="23" cy="12" r="5" fill="#3aa0e8"/><polygon points="27,11 32,13 27,15" fill="#f5a300"/><circle cx="24.5" cy="11" r="1" fill="#000"/><polygon points="7,19 1,17 6,23" fill="#2a7fc0"/></svg></span><span class="lbl">Twitter</span></a>
+  <a class="dicon" href="https://bsky.app/profile/kylierobison.com"><span class="ic"><svg viewBox="0 0 32 32"><path d="M15 16 C8 6 2 8 4 14 C5 18 10 19 14 18 Z" fill="#2a6fd6"/><path d="M17 16 C24 6 30 8 28 14 C27 18 22 19 18 18 Z" fill="#2a6fd6"/><path d="M15 17 C9 26 4 26 4 21 C4 18 10 17 14 17 Z" fill="#4a8fe6"/><path d="M17 17 C23 26 28 26 28 21 C28 18 22 17 18 17 Z" fill="#4a8fe6"/><rect x="14.7" y="10" width="2.6" height="14" rx="1.3" fill="#333"/><line x1="15.5" y1="10" x2="13" y2="6" stroke="#333" stroke-width="1"/><line x1="16.5" y1="10" x2="19" y2="6" stroke="#333" stroke-width="1"/></svg></span><span class="lbl">Bluesky</span></a>
+  <a class="dicon" href="https://www.threads.com/@kylie.robison"><span class="ic"><svg viewBox="0 0 32 32"><rect x="9" y="8" width="14" height="16" fill="#2a6fd6"/><line x1="9" y1="11" x2="23" y2="13" stroke="#1a4f9e" stroke-width="1.5"/><line x1="9" y1="15" x2="23" y2="17" stroke="#1a4f9e" stroke-width="1.5"/><line x1="9" y1="19" x2="23" y2="21" stroke="#1a4f9e" stroke-width="1.5"/><ellipse cx="16" cy="8" rx="9" ry="3" fill="#a06a38"/><ellipse cx="16" cy="24" rx="9" ry="3" fill="#8a5a2e"/><path d="M23 22 C29 24 27 29 31 29" fill="none" stroke="#2a6fd6" stroke-width="1.5"/></svg></span><span class="lbl">Threads</span></a>
+  <a class="dicon" href="https://www.instagram.com/kylie.robison/"><span class="ic"><svg viewBox="0 0 32 32"><rect x="11" y="5" width="10" height="5" fill="#a0a0a0"/><rect x="3" y="9" width="26" height="17" fill="#c0c0c0" stroke="#404040" stroke-width="2"/><circle cx="16" cy="17" r="6" fill="#404040"/><circle cx="16" cy="17" r="3.5" fill="#1a3a6e"/><circle cx="14.5" cy="15.5" r="1" fill="#fff"/><rect x="24" y="11" width="3" height="2" fill="#c02020"/></svg></span><span class="lbl">Instagram</span></a>
 </div>
 
 <div id="deskicon" title="double-click energy, single-click required">
-  <div class="icon">🌐</div>
+  <div class="icon"><svg viewBox="0 0 32 32" style="width:44px;height:44px"><circle cx="16" cy="16" r="13" fill="#2a6fd6" stroke="#123c80" stroke-width="1.5"/><path d="M8 10 C11 7 15 8 15 12 C15 15 11 15 10 18 C9 20 6 19 5 15 C5 13 6 11 8 10 Z" fill="#3fae49"/><path d="M20 18 C24 17 27 19 26 22 C25 25 20 26 18 23 C17 21 18 19 20 18 Z" fill="#3fae49"/><ellipse cx="16" cy="16" rx="6" ry="13" fill="none" stroke="#bcd6ff" stroke-width="1" opacity="0.8"/><line x1="3" y1="16" x2="29" y2="16" stroke="#bcd6ff" stroke-width="1" opacity="0.8"/></svg></div>
   <span class="label">kylierobison.com</span>
 </div>
 
 <div id="taskbar">
-  <button id="startBtn"><span>🪟</span> Start</button>
+  <button id="startBtn"><svg viewBox="0 0 18 18"><g transform="skewY(-6) translate(0,2)"><rect x="1" y="1" width="7" height="7" fill="#ea3323"/><rect x="9" y="1" width="7" height="7" fill="#4caf50"/><rect x="1" y="9" width="7" height="7" fill="#2a6fd6"/><rect x="9" y="9" width="7" height="7" fill="#ffc107"/></g></svg> Start</button>
   <span id="tray"><span id="clock">--:--</span></span>
 </div>
 
 <div class="page">
   <div class="titlebar">
-    <span class="titleicon">🌐</span>
+    <span class="titleicon"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="#2a6fd6" stroke="#bcd6ff" stroke-width="1"/><path d="M8 10 C11 7 15 8 15 12 C15 15 11 15 10 18 C9 20 6 19 5 15 C5 13 6 11 8 10 Z" fill="#3fae49"/><path d="M20 18 C24 17 27 19 26 22 C25 25 20 26 18 23 C17 21 18 19 20 18 Z" fill="#3fae49"/><ellipse cx="16" cy="16" rx="6" ry="13" fill="none" stroke="#bcd6ff" stroke-width="1" opacity="0.8"/></svg></span>
     <span class="titletext">kylierobison.com</span>
     <span class="closebox" id="closeBox" title="close window">✕</span>
   </div>
   <div class="menurow">
-    <span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span>
+    <span class="mitem" data-menu>File<div class="dropdown">
+      <div class="mi" id="miNew">New Window</div>
+      <div class="mi" id="miPrint">Print...</div>
+      <div class="msep"></div>
+      <div class="mi" id="miExit">Exit</div>
+    </div></span>
+    <span class="mitem" data-menu>Edit<div class="dropdown">
+      <div class="mi" id="miCopy">Copy</div>
+      <div class="mi" id="miSave">Save As...</div>
+    </div></span>
+    <span class="mitem" data-menu>View<div class="dropdown">
+      <div class="mi" id="miWin">Windows 98 (default)</div>
+      <div class="mi" id="miStars">Starry Night</div>
+      <div class="mi" id="miMac">System 7</div>
+      <div class="msep"></div>
+      <div class="mi" id="miParty">Party Mode</div>
+    </div></span>
+    <span class="mitem" data-menu>Favorites<div class="dropdown">
+      <a class="mi" href="https://www.corememory.com/p/nordspace-canada-rocket-area66" target="_blank">Can Canada Have A Rocket?</a>
+      <a class="mi" href="https://www.corememory.com/p/the-great-reset-at-openai-ep-67-sam-altman-greg-brockman" target="_blank">Sam + Greg</a>
+      <a class="mi" href="https://www.corememory.com/p/metas-ai-chief-alex-wang-muse-spark-ai-wars" target="_blank">Meta AI Chief</a>
+      <a class="mi" href="https://www.corememory.com/p/westmag-atlas-american-actuators-china" target="_blank">Actuators</a>
+    </div></span>
+    <span class="mitem" data-menu>Tools<div class="dropdown">
+      <div class="mi" id="miDefrag">Disk Defragmenter</div>
+    </div></span>
+    <span class="mitem">Help</span>
   </div>
   <div class="addressrow">
     <span>Address</span>
@@ -517,9 +657,9 @@
   <h2>Now Playing</h2>
   <div class="sec">
     <div class="player">
-      <div class="playerbar">▶ kylie_latest.mpg — Media Player</div>
+      <div class="playerbar">▶ CM_latest.mpg — Media Player</div>
       <div class="playerframe">
-        <iframe src="https://www.youtube.com/embed/videoseries?list=UUzWnSedVeqUyze_R6M5BqwA" title="Latest Core Memory video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/videoseries?list=UULFzWnSedVeqUyze_R6M5BqwA" title="Latest Core Memory video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -558,35 +698,59 @@
 
 <div id="toast"></div>
 
+<!-- win98 error dialog (Edit > Save As...) -->
+<div class="dlg" id="errbox">
+  <div class="dlgbar">Error<span class="closebox" id="errClose">✕</span></div>
+  <div class="dlgbody">
+    <svg viewBox="0 0 32 32" style="width:32px;height:32px"><circle cx="16" cy="16" r="14" fill="#d00000"/><line x1="10" y1="10" x2="22" y2="22" stroke="#fff" stroke-width="4"/><line x1="22" y1="10" x2="10" y2="22" stroke="#fff" stroke-width="4"/></svg>
+    <p style="margin:10px 0 0">Click 'Fix' to fix error.</p>
+    <button class="win" id="fixBtn">Fix</button>
+  </div>
+</div>
+
+<!-- disk defragmenter (Tools) -->
+<div class="dlg" id="defrag">
+  <div class="dlgbar">Disk Defragmenter<span class="closebox" id="defragClose">✕</span></div>
+  <div class="dlgbody">
+    <div id="defragGrid"></div>
+    <div id="defragBarWrap"><div id="defragBar"></div></div>
+    <div id="defragText">Ready.</div>
+  </div>
+</div>
+
 <!-- BOLT, resident robot. does not sleep. technically cannot. -->
 <div id="boltSpeech"></div>
 <svg id="bolt" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" aria-label="Bolt, the site robot">
   <!-- antenna -->
-  <line x1="50" y1="18" x2="50" y2="6" stroke="#1a1a6e" stroke-width="3"/>
+  <line x1="50" y1="18" x2="50" y2="6" stroke="#404040" stroke-width="3"/>
   <circle class="antenna-light" cx="50" cy="6" r="4"/>
-  <!-- head -->
-  <rect x="24" y="18" width="52" height="38" rx="8" fill="#9a9ad0" stroke="#1a1a6e" stroke-width="3"/>
+  <!-- head: win98 gray with beveled edges -->
+  <rect x="24" y="18" width="52" height="38" fill="#c0c0c0" stroke="#404040" stroke-width="2"/>
+  <line x1="25" y1="19" x2="75" y2="19" stroke="#fff" stroke-width="2"/>
+  <line x1="25" y1="19" x2="25" y2="55" stroke="#fff" stroke-width="2"/>
   <!-- eyes -->
-  <g id="eyeL"><circle cx="40" cy="36" r="8" fill="#fff" stroke="#1a1a6e" stroke-width="2"/><circle class="pupil" cx="40" cy="36" r="3.5" fill="#1a1a6e"/></g>
-  <g id="eyeR"><circle cx="60" cy="36" r="8" fill="#fff" stroke="#1a1a6e" stroke-width="2"/><circle class="pupil" cx="60" cy="36" r="3.5" fill="#1a1a6e"/></g>
+  <g id="eyeL"><circle cx="40" cy="36" r="8" fill="#fff" stroke="#404040" stroke-width="2"/><circle class="pupil" cx="40" cy="36" r="3.5" fill="#000080"/></g>
+  <g id="eyeR"><circle cx="60" cy="36" r="8" fill="#fff" stroke="#404040" stroke-width="2"/><circle class="pupil" cx="60" cy="36" r="3.5" fill="#000080"/></g>
   <!-- eyelids for blinking -->
-  <rect id="lidL" x="32" y="28" width="16" height="0" rx="4" fill="#9a9ad0"/>
-  <rect id="lidR" x="52" y="28" width="16" height="0" rx="4" fill="#9a9ad0"/>
+  <rect id="lidL" x="32" y="28" width="16" height="0" rx="4" fill="#c0c0c0"/>
+  <rect id="lidR" x="52" y="28" width="16" height="0" rx="4" fill="#c0c0c0"/>
   <!-- mouth -->
-  <rect id="mouth" x="42" y="47" width="16" height="3" rx="1.5" fill="#1a1a6e"/>
-  <!-- body -->
-  <rect x="32" y="60" width="36" height="30" rx="6" fill="#9a9ad0" stroke="#1a1a6e" stroke-width="3"/>
-  <circle cx="50" cy="72" r="5" fill="#ffed00" stroke="#1a1a6e" stroke-width="2"/>
+  <rect id="mouth" x="42" y="47" width="16" height="3" rx="1.5" fill="#000080"/>
+  <!-- body: beveled gray box -->
+  <rect x="32" y="60" width="36" height="30" fill="#c0c0c0" stroke="#404040" stroke-width="2"/>
+  <line x1="33" y1="61" x2="67" y2="61" stroke="#fff" stroke-width="2"/>
+  <line x1="33" y1="61" x2="33" y2="89" stroke="#fff" stroke-width="2"/>
+  <circle cx="50" cy="72" r="5" fill="#ffed00" stroke="#404040" stroke-width="2"/>
   <!-- arms -->
-  <line x1="32" y1="68" x2="18" y2="76" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
-  <line x1="68" y1="68" x2="82" y2="76" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="16" cy="77" r="4" fill="#cc00aa"/>
-  <circle cx="84" cy="77" r="4" fill="#cc00aa"/>
+  <line x1="32" y1="68" x2="18" y2="76" stroke="#404040" stroke-width="3" stroke-linecap="round"/>
+  <line x1="68" y1="68" x2="82" y2="76" stroke="#404040" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="16" cy="77" r="4" fill="#000080"/>
+  <circle cx="84" cy="77" r="4" fill="#000080"/>
   <!-- legs -->
-  <line x1="42" y1="90" x2="42" y2="102" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
-  <line x1="58" y1="90" x2="58" y2="102" stroke="#1a1a6e" stroke-width="3" stroke-linecap="round"/>
-  <rect x="36" y="101" width="12" height="5" rx="2" fill="#1a1a6e"/>
-  <rect x="52" y="101" width="12" height="5" rx="2" fill="#1a1a6e"/>
+  <line x1="42" y1="90" x2="42" y2="102" stroke="#404040" stroke-width="3" stroke-linecap="round"/>
+  <line x1="58" y1="90" x2="58" y2="102" stroke="#404040" stroke-width="3" stroke-linecap="round"/>
+  <rect x="36" y="101" width="12" height="5" fill="#404040"/>
+  <rect x="52" y="101" width="12" height="5" fill="#404040"/>
 </svg>
 
 <script>
@@ -650,14 +814,103 @@
   // ---------- close box: the window is closable, the site is not ----------
   const pageEl = document.querySelector(".page");
   const deskicon = document.getElementById("deskicon");
-  document.getElementById("closeBox").addEventListener("click", () => {
+  function closeWindow() {
     pageEl.style.display = "none";
     deskicon.style.display = "block";
-    boltSay("you closed the window. i still see you.", 3000);
-  });
+    boltSay("why'd you do that?", 3000);
+  }
+  document.getElementById("closeBox").addEventListener("click", closeWindow);
   deskicon.addEventListener("click", () => {
     deskicon.style.display = "none";
     pageEl.style.display = "block";
+  });
+
+  // ---------- dropdown menus ----------
+  const $ = id => document.getElementById(id);
+  document.querySelectorAll(".mitem[data-menu]").forEach(m => {
+    m.addEventListener("click", (e) => {
+      if (e.target.closest(".dropdown")) return; // item clicks bubble to document & close
+      const wasOpen = m.classList.contains("open");
+      document.querySelectorAll(".mitem.open").forEach(o => o.classList.remove("open"));
+      if (!wasOpen) m.classList.add("open");
+      e.stopPropagation();
+    });
+  });
+  document.addEventListener("click", () =>
+    document.querySelectorAll(".mitem.open").forEach(o => o.classList.remove("open")));
+
+  // file menu
+  $("miNew").addEventListener("click", () => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank"));
+  $("miPrint").addEventListener("click", () => window.print());
+  $("miExit").addEventListener("click", closeWindow);
+
+  // edit menu
+  const fangAscii = " /\\_/\\\n( o.o )\n > ^ <";
+  $("miCopy").addEventListener("click", () => {
+    navigator.clipboard.writeText(fangAscii).then(
+      () => toast("fang copied to clipboard. he bites."),
+      () => toast("clipboard said no.")
+    );
+  });
+  $("miSave").addEventListener("click", () => { $("errbox").style.display = "block"; });
+  $("fixBtn").addEventListener("click", () => {
+    $("errbox").style.display = "none";
+    boltSay("good job.", 2500);
+  });
+  $("errClose").addEventListener("click", () => { $("errbox").style.display = "none"; });
+
+  // view menu: theme switcher
+  function setTheme(t) {
+    document.body.classList.remove("theme-stars", "theme-mac");
+    if (t === "stars") document.body.classList.add("theme-stars");
+    if (t === "mac") document.body.classList.add("theme-mac");
+    try { localStorage.setItem("krTheme", t); } catch {}
+  }
+  $("miWin").addEventListener("click", () => setTheme("win98"));
+  $("miStars").addEventListener("click", () => setTheme("stars"));
+  $("miMac").addEventListener("click", () => setTheme("mac"));
+  $("miParty").addEventListener("click", togglePartyMode);
+  try {
+    const saved = localStorage.getItem("krTheme");
+    if (saved && saved !== "win98") setTheme(saved);
+  } catch {}
+
+  // tools menu: disk defragmenter
+  let defragTimer = null;
+  $("miDefrag").addEventListener("click", () => {
+    const grid = $("defragGrid");
+    const colors = ["#ff2020", "#2050ff", "#20c0c0", "#ffffff"];
+    const total = 192;
+    let cells = [];
+    for (let i = 0; i < total; i++) cells.push(colors[Math.floor(Math.random() * 4)]);
+    const target = [...cells].sort((a, b) => colors.indexOf(a) - colors.indexOf(b));
+    grid.innerHTML = cells.map(c => `<i style="background:${c}"></i>`).join("");
+    $("defrag").style.display = "block";
+    $("defragBar").style.width = "0%";
+    let pos = 0;
+    clearInterval(defragTimer);
+    defragTimer = setInterval(() => {
+      while (pos < total && cells[pos] === target[pos]) pos++;
+      if (pos >= total) {
+        clearInterval(defragTimer);
+        $("defragBar").style.width = "100%";
+        $("defragText").textContent = "Defragmentation complete. Nothing was accomplished.";
+        return;
+      }
+      let j = pos + 1;
+      while (cells[j] !== target[pos]) j++;
+      [cells[pos], cells[j]] = [cells[j], cells[pos]];
+      grid.children[pos].style.background = cells[pos];
+      grid.children[j].style.background = cells[j];
+      pos++;
+      const pct = Math.round(pos / total * 100);
+      $("defragBar").style.width = pct + "%";
+      $("defragText").textContent = "Defragmenting Drive C: " + pct + "% complete";
+    }, 40);
+  });
+  $("defragClose").addEventListener("click", () => {
+    clearInterval(defragTimer);
+    $("defrag").style.display = "none";
   });
 
   // ---------- start & go buttons ----------
