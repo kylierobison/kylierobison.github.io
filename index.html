@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>~ Kylie Robison's Home Page ~</title>
 <meta name="description" content="Kylie Robison — writer covering AI, robotics, and big tech at Core Memory.">
+<base target="_blank">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
@@ -229,6 +230,30 @@
   }
   #defragBar { height: 100%; width: 0%; background: #000080; }
   #defragText { font-size: 11px; text-align: left; }
+  /* blue screen of death (Help > Troubleshooting) */
+  #bsod {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0000aa;
+    color: #fff;
+    font-family: "Courier New", Courier, monospace;
+    font-size: clamp(12px, 2.2vw, 15px);
+    line-height: 1.8;
+    padding: 14vh 8vw;
+    z-index: 2000;
+    cursor: pointer;
+  }
+  #bsod .bsodhead {
+    background: #c0c0c0;
+    color: #0000aa;
+    font-weight: bold;
+    padding: 0 12px;
+    width: fit-content;
+    margin: 0 auto 34px;
+  }
+  #bsod .cur { animation: bsodblink 1s steps(1) infinite; }
+  @keyframes bsodblink { 50% { opacity: 0; } }
   /* theme switcher (View menu) */
   body.theme-stars {
     background-color: #0b0b2a;
@@ -626,7 +651,9 @@
     <span class="mitem" data-menu>Tools<div class="dropdown">
       <div class="mi" id="miDefrag">Disk Defragmenter</div>
     </div></span>
-    <span class="mitem">Help</span>
+    <span class="mitem" data-menu>Help<div class="dropdown">
+      <div class="mi" id="miBsod">Troubleshooting...</div>
+    </div></span>
   </div>
   <div class="addressrow">
     <span>Address</span>
@@ -706,6 +733,16 @@
     <p style="margin:10px 0 0">Click 'Fix' to fix error.</p>
     <button class="win" id="fixBtn">Fix</button>
   </div>
+</div>
+
+<!-- blue screen of death (Help > Troubleshooting) -->
+<div id="bsod">
+  <div class="bsodhead">Windows</div>
+  <p>A fatal exception 0E has occurred at 0028:C0FFEE in module KYLIE.EXE. The current website will be terminated.</p>
+  <p>*&nbsp; Press any key to pretend this never happened.<br>
+  *&nbsp; Press CTRL+ALT+DEL to restart your computer. You will lose this website, which would be a shame, because it just got good.</p>
+  <p>The robot is fine. Everyone is fine.</p>
+  <p>Press any key to continue <span class="cur">_</span></p>
 </div>
 
 <!-- disk defragmenter (Tools) -->
@@ -911,6 +948,16 @@
   $("defragClose").addEventListener("click", () => {
     clearInterval(defragTimer);
     $("defrag").style.display = "none";
+  });
+
+  // help menu: the blue screen
+  $("miBsod").addEventListener("click", () => {
+    setTimeout(() => { $("bsod").style.display = "block"; }, 400); // a beat of false calm
+  });
+  function bsodDismiss() { $("bsod").style.display = "none"; }
+  $("bsod").addEventListener("click", bsodDismiss);
+  document.addEventListener("keydown", () => {
+    if ($("bsod").style.display === "block") bsodDismiss();
   });
 
   // ---------- start & go buttons ----------
